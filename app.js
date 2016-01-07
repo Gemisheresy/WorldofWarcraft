@@ -7,17 +7,19 @@ var weapon;
 var header;
 
 app.param('id',function(req,res,next,value){
-  var id = toString(value);
-  request('https://us.api.battle.net/wow/item/'+id+'?locale=en_US&apikey='+apiKey,function(response,data){
+  console.log(value);
+  request('https://us.api.battle.net/wow/item/'+value+'?locale=en_US&apikey='+apiKey,function(response,data){
     weapon = data.body;
     console.log(data.headers);
     console.log(weapon);
+    res.write('<p>' +toString(weapon) + '</p>');
+    
   });
   next();
 })
 app.get('/item/:id',function(req,res,next){
   console.log('You have a hit');
-  res.end();
+
 });
 
 var server = app.listen(8080,function(){
