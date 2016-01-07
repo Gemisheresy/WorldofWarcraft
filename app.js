@@ -5,7 +5,7 @@ var app = express();
 var apiKey = keyFile.apiKey;
 var output;
 var serach;
-/*
+
 app.param('itemid',function(req,res,next,value){
   console.log(value);
   request('https://us.api.battle.net/wow/item/'+value+'?locale=en_US&apikey='+apiKey,function(response,data){
@@ -31,7 +31,6 @@ app.param('spellid',function(req,res,next,value){
 app.get('/spell/:spellid',function(req,res,next){
   console.log("Spell Requested");
 })
-*/
 app.param('type',function(req,res,next,type){
   search = type;
   console.log(search);
