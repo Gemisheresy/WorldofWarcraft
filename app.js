@@ -4,7 +4,7 @@ var request = require('request');
 var app = express();
 var apiKey = keyFile.apiKey;
 var output;
-var serach;
+var search;
 
 app.param('itemid',function(req,res,next,value){
   console.log(value);
@@ -47,6 +47,21 @@ app.param('id',function(req,res,next,value){
 })
 app.get('/index/:type/:id',function(req,res,next){
   console.log('Hit me');
+});
+app.param('realm',function(req,res,next,realm){
+  search = realm;
+  next();
+})
+app.param('name',function(req,res,next,charName){
+  request('https://us.api.battle.net/wow/character/'+search+'/'+charName+'?locale=en_US&apikey='+apiKey,function(response,data){
+    output = data.body;
+    console.log(data.headers);
+    console.log(output);
+  });
+  next();
+})
+app.get('/character/:realm/:name',function(res,req,next){
+  console.log("Character search");
 });
 
 
