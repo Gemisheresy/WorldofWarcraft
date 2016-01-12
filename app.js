@@ -39,9 +39,12 @@ app.param('type',function(req,res,next,type){
 app.param('id',function(req,res,next,value){
   console.log(search,value);
   request('https://us.api.battle.net/wow/'+search+ '/' +value+'?locale=en_US&apikey='+apiKey,function(response,data){
-    output = data.body;
+    output = JSON.parse(data.body);
     console.log(data.headers);
-    console.log(output);
+    console.log(typeof output);
+    for (prop in output){
+      console.log(prop, output[prop]);
+    }
   });
   next();
 })
@@ -54,9 +57,12 @@ app.param('realm',function(req,res,next,realm){
 })
 app.param('name',function(req,res,next,charName){
   request('https://us.api.battle.net/wow/character/'+search+'/'+charName+'?locale=en_US&apikey='+apiKey,function(response,data){
-    output = data.body;
+    output = JSON.parse(data.body);
     console.log(data.headers);
     console.log(output);
+    for (prop in output){
+      console.log(prop, output[prop]);
+    }
   });
   next();
 })
