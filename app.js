@@ -41,9 +41,13 @@ app.param('id',function(req,res,next,value){
   request('https://us.api.battle.net/wow/'+search+ '/' +value+'?locale=en_US&apikey='+apiKey,function(response,data){
     output = JSON.parse(data.body);
     console.log(data.headers);
-    console.log(typeof output);
     for (prop in output){
-      console.log(prop, output[prop]);
+      if (typeof output[prop] === 'object'){
+        console.log(prop , output[prop]);
+      } else {
+        console.log(prop + ': ' + typeof output[prop]);
+      }
+
     }
   });
   next();
