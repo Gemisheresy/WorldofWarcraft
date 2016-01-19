@@ -1,18 +1,22 @@
 var express = require('express');
 var keyFile = require('./keyFile');
 var request = require('request');
+var database = require('./models/models');
 var app = express();
-var apiKey = keyFile.apiKey;
+var apiKey = '?locale=en_US&apikey=' + keyFile.apiKey;
+var url = 'https://us.api.battle.net/wow/';
 var output;
 var search;
+function outputConvert(response,data){
+  output = JSON.parse(data.body);
+  for (prop in output){
+    console.log(prop, output[prop]);
+  }
+};
 
 app.param('itemid',function(req,res,next,value){
   console.log(value);
-  request('https://us.api.battle.net/wow/item/'+value+'?locale=en_US&apikey='+apiKey,function(response,data){
-    output = data.body;
-    console.log(data.headers);
-    console.log(output);
-    });
+  request(url + 'item/'+value+apiKey,outputConvert);
   next();
 })
 app.get('/item/:itemid',function(req,res,next){
@@ -21,11 +25,7 @@ app.get('/item/:itemid',function(req,res,next){
 });
 app.param('spellid',function(req,res,next,value){
   console.log(value);
-  request('https://us.api.battle.net/wow/spell/'+value+'?locale=en_US&apikey='+apiKey,function(response,data){
-    output = data.body;
-    console.log(data.headers);
-    console.log(output);
-    });
+  request(url + 'spell/'+value+apiKey,outputConvert);
   next();
 })
 app.get('/spell/:spellid',function(req,res,next){
@@ -38,18 +38,7 @@ app.param('type',function(req,res,next,type){
 })
 app.param('id',function(req,res,next,value){
   console.log(search,value);
-  request('https://us.api.battle.net/wow/'+search+ '/' +value+'?locale=en_US&apikey='+apiKey,function(response,data){
-    output = JSON.parse(data.body);
-    console.log(data.headers);
-    for (prop in output){
-      if (typeof output[prop] === 'object'){
-        console.log(prop , output[prop]);
-      } else {
-        console.log(prop + ': ' + typeof output[prop]);
-      }
-
-    }
-  });
+  request(url+search+ '/' +value+apiKey,outputConvert);
   next();
 })
 app.get('/index/:type/:id',function(req,res,next){
@@ -60,14 +49,7 @@ app.param('realm',function(req,res,next,realm){
   next();
 })
 app.param('name',function(req,res,next,charName){
-  request('https://us.api.battle.net/wow/character/'+search+'/'+charName+'?locale=en_US&apikey='+apiKey,function(response,data){
-    output = JSON.parse(data.body);
-    console.log(data.headers);
-    console.log(output);
-    for (prop in output){
-      console.log(prop, output[prop]);
-    }
-  });
+  request(url+ 'character/'+search+'/'+charName+apiKey,outputConvert);
   next();
 })
 app.get('/character/:realm/:name',function(res,req,next){
