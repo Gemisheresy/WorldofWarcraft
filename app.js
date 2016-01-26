@@ -1,7 +1,8 @@
 var express = require('express');
 var keyFile = require('./keyFile');
 var request = require('request');
-var database = require('./models/models');
+var database = require('./models2');
+var fs =  require('fs');
 var app = express();
 var apiKey = '?locale=en_US&apikey=' + keyFile.apiKey;
 var url = 'https://us.api.battle.net/wow/';
@@ -31,6 +32,14 @@ app.param('spellid',function(req,res,next,value){
 app.get('/spell/:spellid',function(req,res,next){
   console.log("Spell Requested");
 })
+app.use('/index/:type/:id',function(req,res,next){
+  fs.appendFile('logFile.txt','request type: ' + req.method , function(err){
+    if (err) throw err;
+    console.log('appended');
+  })
+  console.log('request type: ', req.method );
+  next();
+})
 app.param('type',function(req,res,next,type){
   search = type;
   console.log(search);
@@ -44,6 +53,8 @@ app.param('id',function(req,res,next,value){
 app.get('/index/:type/:id',function(req,res,next){
   console.log('Hit me');
 });
+
+
 app.param('realm',function(req,res,next,realm){
   search = realm;
   next();

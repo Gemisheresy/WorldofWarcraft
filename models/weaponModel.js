@@ -4,7 +4,7 @@ var weaponSchema = mongoose.Schema({
   disenchantingSkillRank : Number,
   description : String,
   name : String,
-  icon : String : String,
+  icon : String,
   stackable : Number,
   itemBind : Number,
   bonusStats : Array,
@@ -13,12 +13,12 @@ var weaponSchema = mongoose.Schema({
   itemClass : Number,
   itemSubClass : Number,
   containerSlots : Number,
-  weaponInfo { damage: { min: Number,
+  weaponInfo : { damage: { min: Number,
                          max: Number,
                          exactMin: Number,
                          exactMax: Number, },
                weaponSpeed: Number,
-               dps: Number, }
+               dps: Number },
   inventoryType : Number,
   equippable : Boolean,
   itemLevel : Number,
@@ -31,7 +31,7 @@ var weaponSchema = mongoose.Schema({
   requiredSkill : Number,
   requiredLevel : Number,
   requiredSkillRank : Number,
-  itemSource : { sourceId : Number: Number, sourceType : String }
+  itemSource : { sourceId : Number, sourceType : String },
   baseArmor : Number,
   hasSockets : Boolean,
   isAuctionable : Boolean,
@@ -41,10 +41,10 @@ var weaponSchema = mongoose.Schema({
   nameDescriptionColor : Number,
   upgradable : Boolean,
   heroicTooltip : Boolean,
-  context
+  context : String,
   bonusLists : Array,
   availableContexts : Array,
-  bonusSummary { defaultBonusLists: Array,
+  bonusSummary : { defaultBonusLists: Array,
                  chanceBonusLists: Array,
                  bonusChances: Array }
 
